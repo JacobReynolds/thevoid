@@ -1,0 +1,31 @@
+{
+  "name": "void",
+  "version": "1.0.0",
+  "description": "Shout into the void",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JacobReynolds/thevoid.git"
+  },
+  "author": "Jake Reynolds",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JacobReynolds/thevoid/issues"
+  },
+  "homepage": "https://github.com/JacobReynolds/thevoid#readme",
+  "keywords": [
+    "shout",
+    "into",
+    "the",
+    "void",
+    "jake",
+    "reynolds"
+  ],
+  "devDependencies": {
+    "express": "^4.13.4",
+    "socket.io": "^1.4.6"
+  }
+}
