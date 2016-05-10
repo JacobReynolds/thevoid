@@ -35,6 +35,9 @@ socket.on('new message', function (data) {
 });
 
 socket.on('ban', function (location) {
+	var tomorrow = new Date();
+	tomorrow.setDate(tomorrow.getDate() + 1);
+	document.cookie = 'BANNED=true; expires=' + tomorrow.toUTCString();
 	window.location.href = location;
 })
 

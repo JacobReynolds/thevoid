@@ -59,9 +59,16 @@ app.post('/attemptLogin', function (req, res) {
 		res.send(false);
 	}
 })
+
+app.get('/banned', function (req, res) {
+	res.sendFile(publicPath + '/banned.html');
+})
 var thevoid = io.of('/void');
 var admin = io.of('/admin');
 thevoid.on('connection', function (socket) {
+	if (getCookie('BANNED', socket.handshake.headers.cookie)) {
+		thevoid.connected[socket.id].emit('ban', '/banned');
+	}
 	currentUsers++;
 	var user = {
 		id: userIdIndex,
@@ -108,6 +115,7 @@ admin.on('connection', function (socket) {
 	admin.emit('connected', userIds)
 	socket.on('ban', function (socketId) {
 		if (socketId) {
+			socket.handshake.headers.cookie += 'test=test';
 			thevoid.connected[socketId].emit('ban', 'http://bfy.tw/5h1b');
 		}
 	})
