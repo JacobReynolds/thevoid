@@ -21,7 +21,7 @@ $(".shout").keypress(function (e) {
 });
 
 socket.on('new message', function (data) {
-	thevoid(data.message);
+	thevoid(cleanInput(data.message));
 });
 
 function thevoid(message) {
