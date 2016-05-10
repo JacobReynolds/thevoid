@@ -4,12 +4,13 @@ body {
 	color: #C0C0C0;
 }
 .void {
-	height: 80vh;
+	height: 100vh;
 	color: white;
 	overflow: hidden;
 }
 .shout {
-	margin-top: 10vh;
+	bottom: 10vh;
+	position: absolute;
 }
 .shout input {
 	border-radius: 5px;
