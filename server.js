@@ -21,6 +21,11 @@ io.on('connection', function (socket) {
 	currentUsers++;
 	// when the client emits 'new message', this listens and executes
 	socket.on('new message', function (data) {
+		if (data.toLowerCase().indexOf('jake') > -1) {
+			data = 'Jake is awesome';
+		} else if (data.toLowerCase().indexOf('jacob') > -1) {
+			data = 'Jake is awesome';
+		}
 		// we tell the client to execute 'new message'
 		io.sockets.emit('new message', {
 			message: data.substring(0, 300)
