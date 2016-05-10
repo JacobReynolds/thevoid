@@ -4,6 +4,8 @@ var app = express();
 var server = require('http').createServer(app);
 var io = require('socket.io')(server);
 var port = process.env.PORT || 80;
+var favicon = require('serve-favicon');
+
 
 server.listen(port, function () {
 	console.log('Server listening at port %d', port);
@@ -11,6 +13,7 @@ server.listen(port, function () {
 
 // Routing
 app.use(express.static(__dirname + '/public'));
+app.use(favicon('public/favicon.ico'));
 
 io.on('connection', function (socket) {
 	// when the client emits 'new message', this listens and executes
