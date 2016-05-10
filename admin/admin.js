@@ -11,6 +11,7 @@ admin.on('connected', function (users) {
 	users.forEach(function (user) {
 		addUser(user.id, user.socketId);
 	})
+	admin.removeListener('connected');
 })
 
 admin.on('userConnected', function (user) {

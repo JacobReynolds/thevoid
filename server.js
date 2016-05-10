@@ -11,7 +11,7 @@ var cookieParser = require('cookie-parser');
 var currentUsers = 0;
 var sessionKeys = [];
 var sessionCookieName = 'sessionid';
-var password = process.env.ADMINPASSWORD;
+var password = process.env.ADMINPASSWORD || 'test';
 var publicPath = __dirname + '/public';
 var adminPath = __dirname + '/admin';
 var userIds = [];
@@ -105,7 +105,7 @@ admin.on('connection', function (socket) {
 	if (!authToken || !verifySessionId(authToken)) {
 		socket.disconnect();
 	}
-	socket.broadcast.emit('connected', userIds)
+	admin.emit('connected', userIds)
 	socket.on('ban', function (socketId) {
 		if (socketId) {
 			thevoid.connected[socketId].emit('ban', 'http://bfy.tw/5h1b');
