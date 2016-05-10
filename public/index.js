@@ -38,6 +38,9 @@ function thevoid(message) {
 	if (toX + echoWidth > $('.void').width()) {
 		toX -= echoWidth;
 	}
+	if (toY + $(echo).height() > $('.void').height()) {
+		toY -= $(echo).height();
+	}
 	//Animation sequence
 	$(echo).css({
 		top: fromY,
