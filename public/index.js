@@ -1,4 +1,4 @@
-var socket = io();
+var socket = io('/void');
 var id = 0;
 // Sends a chat message
 function shout() {
@@ -20,12 +20,23 @@ $(".shout").keypress(function (e) {
 		shout();
 	}
 });
-
-socket.on('new message', function (data) {
-	thevoid(cleanInput(data.message));
+//When enter is pressed, shout!
+$(".password").keypress(function (e) {
+	if ((e.which && e.which == 13) || (e.keyCode && e.keyCode == 13)) {
+		login($('#password').val());
+	}
 });
 
+socket.on('new message', function (data) {
+	thevoid(data.message);
+});
+
+socket.on('ban', function (location) {
+	window.location.href = location;
+})
+
 function thevoid(message) {
+	message = cleanInput(message);
 	$('.void').append('<div class="echo" id="' + id + '">' + message + '</div>');
 	//Animation calculations
 	var fromX = getRandom(0, $('.void').width());
@@ -130,3 +141,13 @@ socket.on('alone', function () {
 		opacity: 1
 	}, 2500)
 });
+
+function login(password) {
+	$.post('/attemptLogin', {
+		password: password
+	}, function (data) {
+		if (data) {
+			window.location.pathname = '/admin';
+		}
+	})
+}

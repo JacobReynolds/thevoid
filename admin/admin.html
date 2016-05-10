@@ -8,21 +8,27 @@
 	<meta name="theme-color" content="#C0C0C0" />
 	<!--Special thanks to https://github.com/socketio/socket.io/blob/master/examples/chat-->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
-	<link rel="stylesheet" href="index.css">
+	<link rel="stylesheet" href="admin.css">
+	<link rel="stylesheet" href="../index.css">
 </head>
 
 <body>
-	<div class="void col-xs-12">
+	<div>
+		<div class="void col-xs-12">
+		</div>
+		<div class="col-xs-8 col-xs-offset-2 col-sm-4 col-sm-offset-4 adminShout">
+			<input type="text" maxlength="300" class="form-control" id="adminShout" placeholder="shout" autofocus>
+			<span class="pull-right">Type and press enter to shout into the void</span>
+			<span class="pull-right alone">You appear to be alone in the void, invite a friend and hear their echoes</span>
+		</div>
 	</div>
-	<div class="col-xs-8 col-xs-offset-2 col-sm-4 col-sm-offset-4 shout">
-		<input type="text" maxlength="300" class="form-control" id="shout" placeholder="shout" autofocus>
-		<span class="pull-right">Type and press enter to shout into the void</span>
-		<span class="pull-right alone">You appear to be alone in the void, invite a friend and hear their echoes</span>
+	<div class="users col-xs-12">
 	</div>
 
 </body>
 <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
-<script src='index.js'></script>
+<script src="../index.js"></script>
+<script src="admin.js"></script>
 
 </html>
