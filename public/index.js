@@ -25,7 +25,7 @@ socket.on('new message', function (data) {
 });
 
 function thevoid(message) {
-	$('.void').append('<span class="echo" id="' + id + '">' + message + '</span>');
+	$('.void').append('<div class="echo" id="' + id + '">' + message + '</div>');
 	//Animation calculations
 	var fromX = getRandom(0, $('.void').width());
 	var fromY = getRandom(0, $('.void').height());
@@ -33,19 +33,26 @@ function thevoid(message) {
 	var toY = getRandom(0, $('.void').height());
 	var echo = $('#' + id);
 	var fontSize = getFontSize(message);
-	var echoWidth = getWidth($('.void').width());
+	var echoWidth = getWidth($(echo).width());
+	//We need to set these before calculating overflow, because they can change the height/width
+	$(echo).css({
+		width: echoWidth,
+		'font-size': fontSize
+	});
 	//Don't let text go off screen
-	if (toX + echoWidth > $('.void').width()) {
-		toX -= echoWidth;
+	var xOverflow = (toX + echoWidth) - $('.void').width();
+	if (xOverflow > 0) {
+		toX -= xOverflow;
 	}
-	if (toY + $(echo).height() > $('.void').height()) {
-		toY -= $(echo).height();
+	//Don't let text go off screen
+	var yOverflow = (toY + $(echo).height()) - $('.void').height();
+	if (yOverflow > 0) {
+		toY -= yOverflow;
 	}
 	//Animation sequence
 	$(echo).css({
 		top: fromY,
 		left: fromX,
-		width: echoWidth,
 		'font-size': fontSize
 	})
 	$(echo).animate({
@@ -54,17 +61,25 @@ function thevoid(message) {
 		opacity: 1
 	}, 2000)
 
+	//Get rid of it
+	destroyEcho(echo);
+	id++;
+}
+
+function destroyEcho(echo) {
 	//Destroy the echo
 	setTimeout(function () {
 		$(echo).animate({
 			opacity: 0
 		}, 1500)
+		setTimeout(function () {
+			$(echo).remove();
+		}, 1500)
 	}, 2000)
-	id++;
 }
 
-function getWidth(max) {
-	return getRandom(200, Math.min(max, 400));
+function getWidth(width) {
+	return getRandom(200, Math.min(width, 400));
 }
 
 function getFontSize(message) {
