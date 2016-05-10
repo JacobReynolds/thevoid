@@ -109,6 +109,9 @@ $(document).ready(function () {
 	$.get('/users', function (data) {
 		if (data == 1) {
 			$('.alone').css('display', 'block');
+			$('.alone').animate({
+				opacity: 1
+			}, 2500)
 		}
 	})
 })
@@ -118,6 +121,7 @@ socket.on('newUser', function () {
 	$('.alone').animate({
 		opacity: 0
 	}, 2500)
+	$('.alone').css('display', 'none');
 	thevoid('A user has connected, can you hear them?');
 });
 
