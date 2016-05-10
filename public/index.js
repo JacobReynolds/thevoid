@@ -106,15 +106,16 @@ function getRandom(min, max) {
 }
 
 $(document).ready(function () {
-	$.get('/users', function (data) {
-		if (data == 1) {
-			$('.alone').animate({
-				opacity: 1
-			}, 2500)
-		}
-	})
+	setTimeout(function () {
+		$.get('/users', function (data) {
+			if (data == 1) {
+				$('.alone').animate({
+					opacity: 1
+				}, 2500)
+			}
+		})
+	}, 2500)
 })
-
 
 socket.on('newUser', function () {
 	$('.alone').animate({
