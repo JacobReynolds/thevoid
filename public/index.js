@@ -3,6 +3,7 @@ var id = 0;
 // Sends a chat message
 function shout() {
 	var message = $('#shout').val();
+	message = message.substring(0, 300);
 	// Prevent markup from being injected into the message
 	message = cleanInput(message);
 	// if there is a non-empty message and a socket connection

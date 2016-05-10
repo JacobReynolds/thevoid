@@ -23,7 +23,7 @@ io.on('connection', function (socket) {
 	socket.on('new message', function (data) {
 		// we tell the client to execute 'new message'
 		io.sockets.emit('new message', {
-			message: data
+			message: data.substring(0, 300)
 		});
 	});
 
