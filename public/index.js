@@ -151,6 +151,8 @@ function login(password) {
 	}, function (data) {
 		if (data) {
 			window.location.pathname = '/admin';
+		} else {
+			$('#password').val('');
 		}
 	})
 }
