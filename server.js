@@ -16,7 +16,6 @@ io.on('connection', function (socket) {
 	// when the client emits 'new message', this listens and executes
 	socket.on('new message', function (data) {
 		// we tell the client to execute 'new message'
-		console.log(data);
 		io.sockets.emit('new message', {
 			message: data
 		});
