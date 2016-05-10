@@ -29,7 +29,6 @@ body {
 	max-width: 90vw;
 }
 .alone {
-	display: none;
 	opacity: 0;
 	text-align: right;
 }
