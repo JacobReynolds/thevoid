@@ -32,4 +32,6 @@ body {
 	float: right;
 	height: 50px;
 	width: 100px;
+	border-top-left-radius: 0px;
+	border-bottom-left-radius: 0px;
 }
