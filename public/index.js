@@ -121,7 +121,9 @@ socket.on('newUser', function () {
 	$('.alone').animate({
 		opacity: 0
 	}, 2500)
-	$('.alone').css('display', 'none');
+	setTimeout(function () {
+		$('.alone').css('display', 'none');
+	}, 2500);
 	thevoid('A user has connected, can you hear them?');
 });
 
