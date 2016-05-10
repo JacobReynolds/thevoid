@@ -1,3 +1,3 @@
 #Shout into the void
 
-Run `npm start
+To run type `npm start` the navigate to localhost:8000
