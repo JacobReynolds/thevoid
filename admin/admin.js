@@ -43,5 +43,6 @@ $(".adminShout").keypress(function (e) {
 	}
 });
 admin.on('new message', function (data) {
+	thevoid(data.message);
 	console.log(data.message);
 })

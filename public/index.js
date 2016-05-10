@@ -28,7 +28,10 @@ $(".password").keypress(function (e) {
 });
 
 socket.on('new message', function (data) {
-	thevoid(data.message);
+	var test = typeof admin;
+	if (typeof admin == 'undefined') {
+		thevoid(data.message);
+	}
 });
 
 socket.on('ban', function (location) {
@@ -126,7 +129,7 @@ $(document).ready(function () {
 				}, 2500)
 			}
 		})
-	}, 2500)
+	}, 1000)
 })
 
 socket.on('newUser', function () {
