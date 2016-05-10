@@ -104,3 +104,26 @@ function cleanInput(input) {
 function getRandom(min, max) {
 	return Math.random() * (max - min) + min;
 }
+
+$(document).ready(function () {
+	$.get('/users', function (data) {
+		if (data == 1) {
+			$('.alone').css('display', 'block');
+		}
+	})
+})
+
+
+socket.on('newUser', function () {
+	$('.alone').animate({
+		opacity: 0
+	}, 2500)
+	thevoid('A user has connected, can you hear them?');
+});
+
+socket.on('alone', function () {
+	$('.alone').css('display', 'block');
+	$('.alone').animate({
+		opacity: 1
+	}, 2500)
+});

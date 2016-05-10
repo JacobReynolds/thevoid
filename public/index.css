@@ -28,3 +28,11 @@ body {
 	word-wrap: break-word;
 	max-width: 90vw;
 }
+.alone {
+	display: none;
+	text-align: right;
+}
+.newuser {
+	display: none;
+	text-align: right;
+}
