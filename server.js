@@ -126,7 +126,7 @@ admin.on('connection', function (socket) {
 	socket.on('ban', function (socketId) {
 		if (socketId) {
 			thevoid.connected[socketId].emit('ban', 'http://bfy.tw/5h1b');
-			var address = thevoid.connected[socketId].handshake.address.address;
+			var address = thevoid.connected[socketId].request.connection.remoteAddress;
 			naughtyList.push(address);
 			setTimeout(function () {
 				var index = naughtyList.indexOf(address);
@@ -186,8 +186,8 @@ function getCookie(name, cookie) {
 }
 
 function isBanned(socket) {
-	var address = socket.handshake.address;
-	return naughtyList.indexOf(address.address) > -1;
+	var address = socket.request.connection.remoteAddress;
+	return naughtyList.indexOf(address) > -1;
 }
 
 app.all('*', function (req, res) {
