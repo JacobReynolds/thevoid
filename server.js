@@ -49,10 +49,15 @@ app.get('/login', function (req, res) {
 });
 
 app.post('/attemptLogin', function (req, res) {
-	if (passwordLimit[req.connection.remoteAddress] === undefined) {
-		passwordLimit[req.connection.remoteAddress] = 0;
+	var currentAddress = req.connection.remoteAddress;
+	if (passwordLimit[currentAddress] === undefined) {
+		passwordLimit[currentAddress] = 0;
 	}
-	if (passwordLimit[req.connection.remoteAddress] <= 5) {
+	if (isBanned(currentAddress)) {
+		res.send('You have been banned for 1 hour');
+		return;
+	}
+	if (passwordLimit[currentAddress] <= 5) {
 		if (req.body.password === password) {
 			var sessionId = generateKey();
 			while (sessionKeys.indexOf(sessionId) > -1) {
@@ -62,13 +67,13 @@ app.post('/attemptLogin', function (req, res) {
 			res.send(true);
 			addId(sessionId);
 		} else {
-			passwordLimit[req.connection.remoteAddress]++;
+			passwordLimit[currentAddress]++;
 			res.send(false);
 		}
 	} else {
-		banUser(req.connection.remoteAddress);
-		passwordLimit[req.connection.remoteAddress] = 0;
-		res.sendFile(publicPath + '/banned.html')
+		banUser(currentAddress);
+		passwordLimit[currentAddress] = 0;
+		res.send('You have been banned for 1 hour');
 	}
 })
 
@@ -219,7 +224,12 @@ function getCookie(name, cookie) {
 }
 
 function isBanned(socket) {
-	var address = socket.request.connection.remoteAddress;
+	var address;
+	if (socket.request) {
+		address = socket.request.connection.remoteAddress;
+	} else {
+		address = socket;
+	}
 	return naughtyList.indexOf(address) > -1;
 }
 
