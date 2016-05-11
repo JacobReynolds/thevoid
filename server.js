@@ -17,6 +17,7 @@ var adminPath = __dirname + '/admin';
 var userIds = [];
 var userIdIndex = 0;
 var naughtyList = [];
+var passwordLimit = [];
 app.set('views', 'public');
 app.use(cookieParser());
 app.use(bodyParser.json());
@@ -48,16 +49,26 @@ app.get('/login', function (req, res) {
 });
 
 app.post('/attemptLogin', function (req, res) {
-	if (req.body.password === password) {
-		var sessionId = generateKey();
-		while (sessionKeys.indexOf(sessionId) > -1) {
-			sessionId = generateKey();
+	if (passwordLimit[req.connection.remoteAddress] === undefined) {
+		passwordLimit[req.connection.remoteAddress] = 0;
+	}
+	if (passwordLimit[req.connection.remoteAddress] <= 5) {
+		if (req.body.password === password) {
+			var sessionId = generateKey();
+			while (sessionKeys.indexOf(sessionId) > -1) {
+				sessionId = generateKey();
+			}
+			res.cookie(sessionCookieName, sessionId, {});
+			res.send(true);
+			addId(sessionId);
+		} else {
+			passwordLimit[req.connection.remoteAddress]++;
+			res.send(false);
 		}
-		res.cookie(sessionCookieName, sessionId, {});
-		res.send(true);
-		addId(sessionId);
 	} else {
-		res.send(false);
+		banUser(req.connection.remoteAddress);
+		passwordLimit[req.connection.remoteAddress] = 0;
+		res.sendFile(publicPath + '/banned.html')
 	}
 })
 
@@ -143,11 +154,7 @@ admin.on('connection', function (socket) {
 		if (socketId) {
 			thevoid.connected[socketId].emit('ban', '/banned');
 			var address = thevoid.connected[socketId].request.connection.remoteAddress;
-			naughtyList.push(address);
-			setTimeout(function () {
-				var index = naughtyList.indexOf(address);
-				naughtyList.splice(index, 1);
-			}, 3600000)
+			banUser(address);
 			admin.emit('newBlock', address);
 		}
 	})
@@ -156,6 +163,15 @@ admin.on('connection', function (socket) {
 		naughtyList.splice(index, 1);
 	})
 })
+
+function banUser(address) {
+	naughtyList.push(address);
+	setTimeout(function () {
+		var index = naughtyList.indexOf(address);
+		naughtyList.splice(index, 1);
+	}, 3600000)
+	console.log('Banned: ' + address);
+}
 
 function removeUser(socket) {
 	var index = -1;
