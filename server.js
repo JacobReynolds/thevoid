@@ -70,6 +70,8 @@ thevoid.on('connection', function (socket) {
 		thevoid.connected[socket.id].emit('ban', '/banned');
 	}
 	currentUsers++;
+	var timestamp = new Date();
+	console.log(timestamp.toString() + ' ---- Active users: ' + currentUsers);
 	var user = {
 		id: userIdIndex,
 		socketId: socket.id
@@ -92,6 +94,8 @@ thevoid.on('connection', function (socket) {
 
 	socket.on('disconnect', function () {
 		currentUsers--;
+		var timestamp = new Date();
+		console.log(timestamp.toString() + ' ---- Active users: ' + currentUsers);
 		removeUser(socket.id);
 		admin.emit('userLeft', {
 			id: socket.id
