@@ -16,6 +16,7 @@ var publicPath = __dirname + '/public';
 var adminPath = __dirname + '/admin';
 var userIds = [];
 var userIdIndex = 0;
+var naughtyList = ['test'];
 app.set('views', 'public');
 app.use(cookieParser());
 app.use(bodyParser.json());
@@ -66,7 +67,7 @@ app.get('/banned', function (req, res) {
 var thevoid = io.of('/void');
 var admin = io.of('/admin');
 thevoid.on('connection', function (socket) {
-	if (getCookie('BANNED', socket.handshake.headers.cookie)) {
+	if (isBanned(socket)) {
 		thevoid.connected[socket.id].emit('ban', '/banned');
 	}
 	currentUsers++;
@@ -118,12 +119,24 @@ admin.on('connection', function (socket) {
 	if (!authToken || !verifySessionId(authToken)) {
 		socket.disconnect();
 	}
-	admin.emit('connected', userIds)
+	admin.emit('connected', {
+		users: userIds,
+		banned: naughtyList
+	});
 	socket.on('ban', function (socketId) {
 		if (socketId) {
-			socket.handshake.headers.cookie += 'test=test';
 			thevoid.connected[socketId].emit('ban', 'http://bfy.tw/5h1b');
+			var address = thevoid.connected[socketId].handshake.address.address;
+			naughtyList.push(address);
+			setTimeout(function () {
+				var index = naughtyList.indexOf(address);
+				naughtyList.splice(index, 1);
+			}, 5000)
 		}
+	})
+	socket.on('unban', function (address) {
+		var index = naughtyList.indexOf(address);
+		naughtyList.splice(index, 1);
 	})
 })
 
@@ -170,6 +183,11 @@ function getCookie(name, cookie) {
 	var value = "; " + cookie;
 	var parts = value.split("; " + name + "=");
 	if (parts.length == 2) return parts.pop().split(";").shift();
+}
+
+function isBanned(socket) {
+	var address = socket.handshake.address;
+	return naughtyList.indexOf(address.address) > -1;
 }
 
 app.all('*', function (req, res) {

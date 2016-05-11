@@ -8,8 +8,11 @@ admin.on('userLeft', function (user) {
 })
 
 admin.on('connected', function (users) {
-	users.forEach(function (user) {
+	users.users.forEach(function (user) {
 		addUser(user.id, user.socketId);
+	})
+	users.banned.forEach(function (banned) {
+		addBanned(banned);
 	})
 	admin.removeListener('connected');
 })
@@ -18,18 +21,21 @@ admin.on('userConnected', function (user) {
 	addUser(user.id, user.socketId);
 })
 
-function getCookie(name) {
-	var value = "; " + document.cookie;
-	var parts = value.split("; " + name + "=");
-	if (parts.length == 2) return parts.pop().split(";").shift();
+function addUser(id, socketId) {
+	$('.users').append('<div class="user col-sm-6 col-md-4 col-lg-2" id="' + getSocketId(socketId) + '">User: ' + id + '<button class="ban btn btn-danger" onclick="ban(\'' + socketId + '\')">Ban</button></div>')
 }
 
-function addUser(id, socketId) {
-	$('.users').append('<div class="user col-sm-12 col-md-4 col-lg-2" id="' + getSocketId(socketId) + '">User: ' + id + '<button class="ban btn btn-danger" onclick="ban(\'' + socketId + '\')">Ban</button></div>')
+function addBanned(ipAddress) {
+	$('.banned').append('<div class="user col-sm-12 col-md-4 col-lg-2" id="' + ipAddress + '">IP: ' + ipAddress + '<button class="ban btn btn-success" onclick="unban(\'' + ipAddress + '\')">Unban</button></div>')
 }
 
 function ban(socketid) {
 	admin.emit('ban', socketid);
+}
+
+function unban(ipAddress) {
+	admin.emit('unban', ipAddress);
+	$('#' + ipAddress).remove();
 }
 
 //Can't look up the socket id with a '#' in it using jquery
