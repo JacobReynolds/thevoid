@@ -37,9 +37,9 @@ function ban(socketid) {
 	admin.emit('ban', socketid);
 }
 
-function unban(this, ipAddress) {
+function unban(div, ipAddress) {
 	admin.emit('unban', ipAddress);
-	$(this).remove();
+	$(div).remove();
 }
 
 //Can't look up the socket id with a '#' in it using jquery
