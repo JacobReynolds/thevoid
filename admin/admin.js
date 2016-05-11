@@ -21,6 +21,10 @@ admin.on('userConnected', function (user) {
 	addUser(user.id, user.socketId);
 })
 
+admin.on('newBlock', function (ipAddress) {
+	addBlock(ipAddress);
+})
+
 function addUser(id, socketId) {
 	$('.users').append('<div class="user col-sm-6 col-md-4 col-lg-2" id="' + getSocketId(socketId) + '">User: ' + id + '<button class="ban btn btn-danger" onclick="ban(\'' + socketId + '\')">Ban</button></div>')
 }

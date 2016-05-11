@@ -131,7 +131,8 @@ admin.on('connection', function (socket) {
 			setTimeout(function () {
 				var index = naughtyList.indexOf(address);
 				naughtyList.splice(index, 1);
-			}, 5000)
+			}, 3600000)
+			admin.emit('newBlock', address);
 		}
 	})
 	socket.on('unban', function (address) {
