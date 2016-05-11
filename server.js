@@ -83,9 +83,11 @@ thevoid.on('connection', function (socket) {
 		thevoid.emit('new message', {
 			message: data,
 		});
+		var userMessage = 'User ' + user.id + ': ' + data;
 		admin.emit('new message', {
-			message: 'User ' + user.id + ' says: ' + data
+			message: userMessage
 		})
+		console.log(userMessage);
 	});
 
 	socket.on('disconnect', function () {
