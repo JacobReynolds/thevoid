@@ -67,14 +67,18 @@ app.get('/banned', function (req, res) {
 var thevoid = io.of('/void');
 var admin = io.of('/admin');
 thevoid.on('connection', function (socket) {
+	//If they're banned, redirect them
 	if (isBanned(socket)) {
 		thevoid.connected[socket.id].emit('ban', '/banned');
 		thevoid.connected[socket.id].disconnect();
 		return;
 	}
+	//Increment user count and log
 	currentUsers++;
 	var timestamp = new Date();
 	console.log(timestamp.toString() + ' ---- Active users: ' + currentUsers);
+
+	//New user object
 	var user = {
 		id: userIdIndex,
 		socketId: socket.id
@@ -83,6 +87,16 @@ thevoid.on('connection', function (socket) {
 	admin.emit('userConnected', user);
 	// when the client emits 'new message', this listens and executes
 	socket.on('new message', function (data) {
+		//Verify they aren't spamming
+		if (socket.rateLimited) {
+			console.log('rate limited User' + user.id);
+			return;
+		}
+		socket.rateLimited = true;
+		setTimeout(function () {
+			socket.rateLimited = false;
+		}, 350)
+
 		// we tell the client to execute 'new message'
 		data = data.substring(0, 300);
 		thevoid.emit('new message', {
