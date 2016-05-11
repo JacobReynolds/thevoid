@@ -16,7 +16,7 @@ var publicPath = __dirname + '/public';
 var adminPath = __dirname + '/admin';
 var userIds = [];
 var userIdIndex = 0;
-var naughtyList = ['test'];
+var naughtyList = [];
 app.set('views', 'public');
 app.use(cookieParser());
 app.use(bodyParser.json());
