@@ -22,7 +22,7 @@ admin.on('userConnected', function (user) {
 })
 
 admin.on('newBlock', function (ipAddress) {
-	addBlock(ipAddress);
+	addBanned(ipAddress);
 })
 
 function addUser(id, socketId) {
