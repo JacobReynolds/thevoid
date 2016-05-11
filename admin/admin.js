@@ -30,16 +30,16 @@ function addUser(id, socketId) {
 }
 
 function addBanned(ipAddress) {
-	$('.banned').append('<div class="user col-sm-12 col-md-4 col-lg-2" id="' + ipAddress + '">IP: ' + ipAddress + '<button class="ban btn btn-success" onclick="unban(\'' + ipAddress + '\')">Unban</button></div>')
+	$('.banned').append('<div class="user col-sm-12 col-md-4 col-lg-2">IP: ' + ipAddress + '<button class="ban btn btn-success" onclick="unban(this, \'' + ipAddress + '\')">Unban</button></div>')
 }
 
 function ban(socketid) {
 	admin.emit('ban', socketid);
 }
 
-function unban(ipAddress) {
+function unban(this, ipAddress) {
 	admin.emit('unban', ipAddress);
-	$('#' + ipAddress).remove();
+	$(this).remove();
 }
 
 //Can't look up the socket id with a '#' in it using jquery
