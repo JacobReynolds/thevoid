@@ -21,7 +21,7 @@ admin.on('userConnected', function (user) {
 	addUser(user.id, user.socketId);
 })
 
-admin.on('newBlock', function (ipAddress) {
+admin.on('newBan', function (ipAddress) {
 	addBanned(ipAddress);
 })
 

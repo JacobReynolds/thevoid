@@ -155,7 +155,6 @@ admin.on('connection', function (socket) {
 			thevoid.connected[socketId].emit('ban', '/banned');
 			var address = thevoid.connected[socketId].request.connection.remoteAddress;
 			banUser(address);
-			admin.emit('newBlock', address);
 		}
 	})
 	socket.on('unban', function (address) {
@@ -170,6 +169,7 @@ function banUser(address) {
 		var index = naughtyList.indexOf(address);
 		naughtyList.splice(index, 1);
 	}, 3600000)
+	admin.emit('newBan', address);
 	console.log('Banned: ' + address);
 }
 
