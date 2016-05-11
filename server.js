@@ -69,6 +69,8 @@ var admin = io.of('/admin');
 thevoid.on('connection', function (socket) {
 	if (isBanned(socket)) {
 		thevoid.connected[socket.id].emit('ban', '/banned');
+		thevoid.connected[socket.id].disconnect();
+		return;
 	}
 	currentUsers++;
 	var timestamp = new Date();
@@ -125,7 +127,7 @@ admin.on('connection', function (socket) {
 	});
 	socket.on('ban', function (socketId) {
 		if (socketId) {
-			thevoid.connected[socketId].emit('ban', 'http://bfy.tw/5h1b');
+			thevoid.connected[socketId].emit('ban', '/banned');
 			var address = thevoid.connected[socketId].request.connection.remoteAddress;
 			naughtyList.push(address);
 			setTimeout(function () {

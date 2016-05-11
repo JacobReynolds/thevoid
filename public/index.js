@@ -136,7 +136,7 @@ socket.on('newUser', function () {
 	$('.alone').animate({
 		opacity: 0
 	}, 2500)
-	thevoid('A user has connected, can you hear them?');
+	thevoid('An echo has joined, can you hear it?');
 });
 
 socket.on('alone', function () {
