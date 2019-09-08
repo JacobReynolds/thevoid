@@ -29,6 +29,6 @@ io.on('connection', function connection(ws) {
 
   ws.on('disconnect',()=>{
       connected--;
-      ws.emit('count',connected);
+      ws.broadcast.emit('count',connected);
   })
 });
