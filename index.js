@@ -1,24 +1,6 @@
-/*AWS Application Load Balancer health check*/
-const http = require('http');
-
-const requestHandler = (request, response) => {
-    response.statusCode=200;
-    response.end();
-}
-const server = http.createServer(requestHandler)
-  
-server.listen(8080, (err) => {
-    if (err) {
-      return console.log('something bad happened', err)
-    }
-    console.log(`health check is listening`)
-  })
-/*End health check code*/
-
-
 const WebSocket = require('ws');
 let connected=0;
-const io = require('socket.io')(http, {
+const io = require('socket.io')(8080, {
     path: '/',
     serveClient: false,
     // below are engine.IO options
@@ -48,7 +30,3 @@ io.on('connection', function connection(ws) {
       connected--
   })
 });
-
-
-
-
