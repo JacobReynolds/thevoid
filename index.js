@@ -30,3 +30,21 @@ io.on('connection', function connection(ws) {
       connected--
   })
 });
+
+
+
+/*AWS Application Load Balancer health check*/
+const http = require('http');
+
+const requestHandler = (request, response) => {
+    response.statusCode=200;
+    response.end();
+}
+const server = http.createServer(requestHandler)
+  
+server.listen(8081, (err) => {
+  if (err) {
+    return console.log('something bad happened', err)
+  }
+  console.log(`health check is listening`)
+})
