@@ -6,7 +6,14 @@ const requestHandler = (request, response) => {
     response.end();
 }
 const server = http.createServer(requestHandler)
-/*End health check*/
+  
+server.listen(8080, (err) => {
+    if (err) {
+      return console.log('something bad happened', err)
+    }
+    console.log(`health check is listening`)
+  })
+/*End health check code*/
 
 
 const WebSocket = require('ws');
@@ -45,10 +52,3 @@ io.on('connection', function connection(ws) {
 
 
 
-  
-server.listen(8081, (err) => {
-  if (err) {
-    return console.log('something bad happened', err)
-  }
-  console.log(`health check is listening`)
-})
