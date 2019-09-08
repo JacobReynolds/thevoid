@@ -21,7 +21,7 @@ io.on('connection', function connection(ws) {
   });
 
   ws.broadcast.emit('new user');
-  ws.emit('count',connected);
+  ws.broadcast.emit('count',connected);
 
   ws.on('count',function incoming(data) {
     ws.emit('count',connected);
