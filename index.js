@@ -1,4 +1,3 @@
-const WebSocket = require('ws');
 let connected=0;
 const io = require('socket.io')(8080, {
     path: '/',
